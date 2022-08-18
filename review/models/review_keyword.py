@@ -1,6 +1,6 @@
 from django.db import models
 from keywords.models import Keyword
-from .reviews import Review
+from .review import Review
 
 class ReviewKeyword(models.Model):
     keyword_id = models.ForeignKey(Keyword, on_delete=models.CASCADE, verbose_name="키워드")

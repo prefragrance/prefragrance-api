@@ -1,3 +1,3 @@
-from .review_feedbacks import ReviewFeedbackAdmin
-from .review_keywords import ReviewKeywordAdmin
-from .reviews import ReviewAdmin
+from .review_feedback import ReviewFeedbackAdmin
+from .review_keyword import ReviewKeywordAdmin
+from .review import ReviewAdmin

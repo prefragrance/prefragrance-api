@@ -1,6 +1,6 @@
 from django.db import models
 from account.models import User
-from .reviews import Review
+from .review import Review
 
 class ReviewFeedback(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="사용자")
