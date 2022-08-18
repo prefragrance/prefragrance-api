@@ -13,7 +13,6 @@ class Search(models.Model):
         default=0,
         blank=False,
     )
-
     def __str__(self):
         return self.content
 
