@@ -1,8 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from account.models import User
-from products.models import Product
-from django.conf import settings
+from product.models import Product
 
 
 class Review(models.Model):
@@ -39,6 +38,6 @@ class Review(models.Model):
     feedback_cnt = models.PositiveIntegerField(default=0)
 
     class Meta:
-        db_table = "reviews"
+        db_table = "review"
         verbose_name = "Review"
         verbose_name_plural = "Review"

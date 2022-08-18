@@ -8,6 +8,6 @@ class ReviewFeedback(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True, verbose_name="날짜")
 
     class Meta:
-        db_table = "review_feedbacks"
+        db_table = "review_feedback"
         verbose_name = "Review Feedback"
         verbose_name_plural = "Review Feedback"

@@ -14,9 +14,6 @@ class ReviewAdmin(admin.ModelAdmin):
     list_display_links = (
         "user_id",
     )
-    readonly_fields = (
-        "pub_date",
-    )
     search_fields = (
         "product_id",
     )

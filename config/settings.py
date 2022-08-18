@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'drf_yasg',
     'rest_framework',
     'account',
-    'products',
-    'keywords',
+    'product',
+    'tag',
     'review',
 ]
 
