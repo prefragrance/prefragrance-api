@@ -1,8 +1,8 @@
 from django.contrib import admin
-from products.models import Code
+from product.models import Category
 
-@admin.register(Code)
-class CodeAdmin(admin.ModelAdmin):
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "name",

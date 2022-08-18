@@ -1,9 +1,9 @@
 from django.contrib import admin
-from keywords.models import Keyword
+from tag.models import Tag
 
-@admin.register(Keyword)
-class KeywordAdmin(admin.ModelAdmin):
-    """Admin VIEW for Keyword"""
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    """Admin VIEW for Tag"""
     list_display = (
         "id",
         "name",

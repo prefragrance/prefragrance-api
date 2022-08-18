@@ -1,5 +1,5 @@
 from django.db import models
-from products.models import Product
+from product.models import Product
 from account.models import User
 
 class ProductFeedback(models.Model):
