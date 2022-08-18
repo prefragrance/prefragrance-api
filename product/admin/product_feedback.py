@@ -1,5 +1,5 @@
 from django.contrib import admin
-from products.models import ProductFeedback
+from product.models import ProductFeedback
 
 @admin.register(ProductFeedback)
 class ProductFeedbackAdmin(admin.ModelAdmin):
