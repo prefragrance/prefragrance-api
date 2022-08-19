@@ -3,5 +3,5 @@ from product.models import Product, Code
 
 class ProductCode(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False) 
-    product_id = models.ForeignKey(Product, null = False, blank = False, on_delete = models.CASCADE)
-    code_id = models.ForeignKey(Code, null = False, blank = False, on_delete = models.CASCADE)
+    product = models.ForeignKey(Product, null = False, blank = False, on_delete = models.CASCADE)
+    code = models.ForeignKey(Code, null = False, blank = False, on_delete = models.CASCADE)

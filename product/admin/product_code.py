@@ -6,8 +6,8 @@ from ..models.product import Product
 class ProductCodeAdmin(admin.ModelAdmin):
     list_display = (
         "id",
-        "product_id",
-        "code_id",
+        "product",
+        "code",
     )
 
     search_fields = list_display
