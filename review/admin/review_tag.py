@@ -6,14 +6,14 @@ from review.models import ReviewTag
 class ReviewTagAdmin(admin.ModelAdmin):
 
     list_display = (
-        "review_id",
-        "tag_id",
+        "review",
+        "tag",
     )
     list_display_links = (
-        "review_id",
+        "review",
     )
     search_fields = (
-        "tag_id",
+        "tag",
     )
     ordering = (
         "id",

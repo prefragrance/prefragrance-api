@@ -6,15 +6,15 @@ from review.models import ReviewFeedback
 class ReviewFeedbackAdmin(admin.ModelAdmin):
 
     list_display = (
-        "user_id",
-        "review_id",
+        "user",
+        "review",
         "pub_date",
     )
     list_display_links = (
-        "user_id",
+        "user",
     )
     search_fields = (
-        "user_id",
+        "user",
     )
     ordering = (
         "pub_date",

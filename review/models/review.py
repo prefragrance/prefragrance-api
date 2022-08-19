@@ -26,8 +26,8 @@ class Review(models.Model):
         MID = 2
         HIGH = 3
 
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="사용자")
-    product_id = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="제품")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="사용자")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="제품")
     season = models.IntegerField(choices=Season.choices)
     time = models.IntegerField(choices=Time.choices)
     duration = models.IntegerField(choices=Duration.choices)

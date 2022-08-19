@@ -6,16 +6,16 @@ from review.models import Review
 class ReviewAdmin(admin.ModelAdmin):
 
     list_display = (
-        "user_id",
-        "product_id",
+        "user",
+        "product",
         "content",
         "pub_date",
     )
     list_display_links = (
-        "user_id",
+        "user",
     )
     search_fields = (
-        "product_id",
+        "product",
     )
     ordering = (
         "pub_date",
