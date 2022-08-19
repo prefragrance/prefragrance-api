@@ -5,8 +5,8 @@ from product.models import ProductFeedback
 class ProductFeedbackAdmin(admin.ModelAdmin):
     list_display = (
         "id",
-        "product_id",
-        "user_id",
+        "product",
+        "user",
     )
 
     search_fields = list_display

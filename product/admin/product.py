@@ -5,7 +5,7 @@ from product.models import Product
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
         "id",
-        "category_id",
+        "category",
         "name",
         "producer",
         "feedback_cnt",
@@ -20,5 +20,5 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = (
         "name",
         "producer",
-        "category_id",
+        "category",
     )

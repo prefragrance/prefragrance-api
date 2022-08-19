@@ -6,8 +6,8 @@ from product.models import ProductTag
 class ProductTagAdmin(admin.ModelAdmin):
     list_display = (
         "id",
-        "product_id",
-        "tag_id",
+        "product",
+        "tag",
     )
 
     search_fields = list_display
