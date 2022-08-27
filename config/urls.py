@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.views.decorators.csrf import csrf_exempt
 
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
@@ -35,5 +36,5 @@ urlpatterns = [
         r"redoc", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc-v1"
     ),
     path('account/', include('account.urls')),
-    path("search/",include('search.urls'))
+    path("search/",include('search.urls')),
 ]

@@ -2,8 +2,6 @@ from rest_framework.serializers import ModelSerializer
 
 from search.models import Search, UserSearch, RecommendSearch
 
-#인기 검색어에 사용 => cnt 기준으로 나열
-
 class SearchSerializer(ModelSerializer):
     """Serializer definition for Search Model."""
 
