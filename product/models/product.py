@@ -7,6 +7,11 @@ class Product(models.Model):
     category = models.ForeignKey('product.Category', null = False, blank = False, on_delete = models.CASCADE)
     name = models.CharField(max_length = 400, null = False, blank = False)
     producer = models.CharField(max_length = 400, null = False, blank = False)
+    tags = models.ManyToManyField(
+        "tag.Tag",
+        related_name="tags",
+        through="product.ProductTag",
+    )
     feedback_cnt = models.IntegerField()
     review_cnt = models.IntegerField()
     visit_cnt = models.IntegerField()
