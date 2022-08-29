@@ -13,3 +13,6 @@ class Product(models.Model):
     thumbnail_url = models.URLField(null = True, blank = True)
     rate_sum = models.FloatField(null = True, blank = True)
     rate = models.FloatField()
+
+    def __str__(self):
+        return self.name

@@ -1,9 +1,15 @@
 from django.contrib import admin
-from review.models import Review
+from review.models import Review, ReviewFeedback
 
+class LikeInline(admin.StackedInline):
+    model = ReviewFeedback
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
+
+    inlines = (
+        LikeInline,
+    )
 
     list_display = (
         "user",
