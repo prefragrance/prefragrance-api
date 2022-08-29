@@ -12,7 +12,14 @@ from product.serializers import ProductSerializer
 from product.models import Product, ProductFeedback
 from review.models import Review
 
-
+# ip를 리턴해주는 함수
+# def get_client_ip(request):
+#     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+#     if x_forwarded_for:
+#         ip = x_forwarded_for.split(',')[0]
+#     else:
+#         ip = request.META.get('REMOTE_ADDR')
+#     return ip
 
 class ProductDetailView(RetrieveAPIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
@@ -31,6 +38,20 @@ class ProductDetailView(RetrieveAPIView):
         product.rate = product.rate_sum / product.review_cnt
         product.save()
         serializer = ProductSerializer(product)
+
+        # ip를 이용해서 조회수 기능 만들고 저장 (visit모델에서 user_ip 필요(?)
+        # ip = get_client_ip(request)
+
+        # if not Visit.objects.filter(user_ip=ip, product=id).exists():
+        #     product.visit_cnt += 1 
+        #     product.save()
+            
+        #     Visit.objects.create(
+        #         user = self.request.user,
+        #         user_ip = ip,
+        #         product = product
+        # )
+
         return Response(serializer.data)
 
 
