@@ -19,17 +19,17 @@ class TagSearchSerializer(ModelSerializer):
 class ProductSearchSerializer(ModelSerializer):
     """Serializer definition for ProductSearch Model."""
 
-    # tags = TagSearchSerializer(
-    #     read_only = False,
-    #     required = True,
-    # )
+    tags = TagSearchSerializer(
+        read_only = False,
+        many = True,
+    )
 
     class Meta:
         """Meta definition for ProductSearchSerializer."""
 
         model = Product
         fields = ["id", "name", "producer", "feedback_cnt", "review_cnt",
-                  "visit_cnt", "thumbnail_url", "rate_sum", "rate"]
+                  "visit_cnt", "thumbnail_url", "rate_sum", "rate", "tags"]
 
         read_only_fields = ["id", "name", "producer", "feedback_cnt", "review_cnt",
-                  "visit_cnt", "thumbnail_url", "rate_sum", "rate"]
+                  "visit_cnt", "thumbnail_url", "rate_sum", "rate",  "tags"]
