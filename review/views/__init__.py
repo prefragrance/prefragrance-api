@@ -1,1 +1,1 @@
-from .review_api_view import ReviewCreateView, ReviewLikeView
+from .review_api_view import ReviewView, ReviewLikeView, ReviewDetailView

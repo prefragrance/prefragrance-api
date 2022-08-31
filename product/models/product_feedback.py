@@ -9,4 +9,9 @@ class ProductFeedback(models.Model):
 
     class Meta:
         # 유저가 좋아요 한 제품 중복 방지
-        unique_together = ['product', 'user']
+        constraints = [
+            models.UniqueConstraint(
+                fields=["product", "user"],
+                name="unique productfeedbacks"
+            )
+        ]
