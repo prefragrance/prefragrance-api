@@ -1,8 +1,8 @@
-from account.models import User
+from accounts.models import User
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from account.serializers import LoginSerializer, SignupSerializer
+from accounts.serializers import LoginSerializer, SignupSerializer
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
 
