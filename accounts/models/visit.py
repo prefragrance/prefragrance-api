@@ -5,7 +5,7 @@ class Visit(models.Model):
     """Model definition for Visit"""
 
     user = models.ForeignKey(
-        'account.User',
+        'accounts.User',
         on_delete=models.CASCADE,
     )
 

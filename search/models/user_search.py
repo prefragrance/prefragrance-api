@@ -5,7 +5,7 @@ class UserSearch(models.Model):
     """Model definition for UserSearch"""
 
     user = models.ForeignKey(
-        'account.User',
+        'accounts.User',
         on_delete=models.CASCADE,
     )
 
