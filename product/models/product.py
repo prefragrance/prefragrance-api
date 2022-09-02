@@ -18,7 +18,7 @@ class Product(models.Model):
     thumbnail_url = models.URLField(null = True, blank = True)
     rate_sum = models.FloatField(null = True, blank = True)
     rate = models.FloatField()
-    liked_users = models.ManyToManyField('account.User', through='product.ProductFeedback', related_name='liked_products')
+    liked_users = models.ManyToManyField('accounts.User', through='product.ProductFeedback', related_name='liked_products')
 
     def __str__(self):
         return self.name
