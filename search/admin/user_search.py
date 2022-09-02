@@ -6,6 +6,7 @@ class UserSearchAdmin(admin.ModelAdmin):
     list_display = (
         'user',
         'search',
+        'pub_date',
     )
 
     ordering = (
