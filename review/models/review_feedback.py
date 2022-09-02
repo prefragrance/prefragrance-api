@@ -11,3 +11,10 @@ class ReviewFeedback(models.Model):
         db_table = "review_feedback"
         verbose_name = "Review Feedback"
         verbose_name_plural = "Review Feedback"
+        # 유저가 좋아요 한 리뷰 중복 방지
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "review"],
+                name="unique reviewfeedbacks"
+            )
+        ]

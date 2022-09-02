@@ -1,0 +1,1 @@
+from .product_api_view import ProductDetailView, ProductLikeView
