@@ -27,7 +27,7 @@ class Review(models.Model):
         HIGH = 3
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="사용자")
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="제품")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="제품", related_name="reviews")
     season = models.IntegerField(choices=Season.choices)
     time = models.IntegerField(choices=Time.choices)
     duration = models.IntegerField(choices=Duration.choices)
@@ -36,6 +36,10 @@ class Review(models.Model):
     rate = models.FloatField(validators=[MinValueValidator(0,5),MaxValueValidator(5.0)])
     pub_date = models.DateTimeField(auto_now=True, verbose_name="날짜")
     feedback_cnt = models.PositiveIntegerField(default=0)
+    liked_users = models.ManyToManyField('account.User', through='review.ReviewFeedback', related_name='liked_reviews')
+
+    def __str__(self):
+        return self.content
 
     class Meta:
         db_table = "review"
