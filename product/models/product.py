@@ -9,9 +9,14 @@ class Product(models.Model):
     producer = models.CharField(max_length = 400, null = False, blank = False)
     tags = models.ManyToManyField(
     "tag.Tag",
-    related_name="tags",
+    related_name="product_tags",
     through="product.ProductTag",
-)
+    )
+    codes = models.ManyToManyField(
+    "product.Code",
+    related_name="codes",
+    through="product.ProductCode",
+    )
     feedback_cnt = models.IntegerField()
     review_cnt = models.IntegerField()
     visit_cnt = models.IntegerField()

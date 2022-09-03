@@ -14,7 +14,6 @@ from search.serializers import (
 )
 from search.models import (
     Search,
-    UserSearch,
 )
 
 from product.models import Product, ProductTag, Category
@@ -122,30 +121,30 @@ class SearchAPIView(ListAPIView):
                 print(search)
                 search[0].cnt += 1
                 search[0].save()
-                user_search = UserSearch.objects.filter(
-                user = request.user,
-                search_id__in = search_id
-            )
+            #     user_search = UserSearch.objects.filter(
+            #     user = request.user,
+            #     search_id__in = search_id
+            # )
 
-                #이미 그 검색어를 검색한 적이 있으면 
-                if user_search:
-                    user_search[0].pub_date = datetime.now()
-                    user_search[0].save()
-                else:
-                    user_search = UserSearch(
-                        user = request.user,
-                        search = search,
-                        pub_date = datetime.now()
-                    )
+                # #이미 그 검색어를 검색한 적이 있으면 
+                # if user_search:
+                #     user_search[0].pub_date = datetime.now()
+                #     user_search[0].save()
+                # else:
+                #     user_search = UserSearch(
+                #         user = request.user,
+                #         search = search,
+                #         pub_date = datetime.now()
+                #     )
 
             #없으면 새로 생성
             else:
                 search = Search.objects.create(content = q, cnt = 0)
-                UserSearch.objects.create(
-                        user = request.user,
-                        search = search,
-                        pub_date = datetime.now()
-                        )
+                # UserSearch.objects.create(
+                #         user = request.user,
+                #         search = search,
+                #         pub_date = datetime.now()
+                #         )
 
             return Response(status=status.HTTP_201_CREATED)
 

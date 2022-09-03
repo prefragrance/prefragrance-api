@@ -37,6 +37,11 @@ class Review(models.Model):
     pub_date = models.DateTimeField(auto_now=True, verbose_name="날짜")
     feedback_cnt = models.PositiveIntegerField(default=0)
     liked_users = models.ManyToManyField('accounts.User', through='review.ReviewFeedback', related_name='liked_reviews')
+    tags = models.ManyToManyField(
+    "tag.Tag",
+    related_name="review_tags",
+    through="review.ReviewTag",
+    )
 
     def __str__(self):
         return self.content
