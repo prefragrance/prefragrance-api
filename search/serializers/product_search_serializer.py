@@ -3,23 +3,12 @@ from rest_framework.serializers import ModelSerializer
 from product.models import Product
 
 from tag.models import Tag
-
-#인기 검색어에 사용 => cnt 기준으로 나열
-
-class TagSearchSerializer(ModelSerializer):
-    """Serializer definition for Tag Model."""
-
-    class Meta:
-        """Meta definition for TagSerializer."""
-
-        model = Tag
-        fields = ["id", "name"]
-        read_only_fields = ["id", "name"]
+from tag.serializers import TagSerializer
 
 class ProductSearchSerializer(ModelSerializer):
     """Serializer definition for ProductSearch Model."""
 
-    tags = TagSearchSerializer(
+    tags = TagSerializer(
         read_only = False,
         many = True,
     )

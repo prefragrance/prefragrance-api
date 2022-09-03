@@ -22,3 +22,9 @@ class Search(models.Model):
         verbose_name = "Search"
         verbose_name_plural = "Searches"
         db_table = "searches"
+
+        ordering = ['-cnt']
+
+    def increment_search_count(self):
+        self.cnt += 1
+        self.save()
