@@ -34,6 +34,7 @@ class ProductDetailView(RetrieveAPIView):
                 product = Product.objects.get(id=product_id)
             )
             if not is_visit:
+                visit.pub_date = datetime.now()
                 visit.save()
         # 로그인이 안 되어 있는 경우
         else:
