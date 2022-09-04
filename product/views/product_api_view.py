@@ -1,3 +1,5 @@
+#현재 migrate부터 해야 함!
+
 from rest_framework import status
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.views import APIView
@@ -5,20 +7,12 @@ from rest_framework.decorators import authentication_classes,permission_classes
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from datetime import datetime, timezone
 
 from product.permissions import IsOwnerOrReadOnly
 
-from product.serializers import ProductSerializer
+from product.serializers import ProductDetailSerializer
 from product.models import Product
-
-# ip를 리턴해주는 함수
-# def get_client_ip(request):
-#     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-#     if x_forwarded_for:
-#         ip = x_forwarded_for.split(',')[0]
-#     else:
-#         ip = request.META.get('REMOTE_ADDR')
-#     return ip
 
 class ProductDetailView(RetrieveAPIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
@@ -27,22 +21,28 @@ class ProductDetailView(RetrieveAPIView):
     def get(self, request, **kwargs):
         product_id = kwargs.get('id')
         queryset = Product.objects.get(id=product_id)
-        serializer = ProductSerializer(queryset)
+        serializer = ProductDetailSerializer(queryset)
 
-        # ip를 이용해서 조회수 기능 만들고 저장 (visit모델에서 user_ip 필요(?)
-        # ip = get_client_ip(request)
+        tomorrow = datetime.replace(datetime.now(), hour=23, minute=59, second=0)
+        expires = datetime.strftime(tomorrow, "%a, %d-%b-%Y %H:%M:%S GMT")
+        
+        response = Response(serializer.data, status=status.HTTP_200_OK)
+        
+        # # 쿠키 읽기 & 생성
+        # if request.COOKIES.get('hit') is not None: # 쿠키에 hit 값이 이미 있을 경우
+        #     cookies = request.COOKIES.get('hit')
+        #     cookies_list = cookies.split('|') # '|'는 다르게 설정 가능 ex) '.'
+        #     if str(product_id) not in cookies_list:
+        #         queryset.visit_cnt += 1
+        #         queryset.save()
+        #         response.set_cookie('hit', cookies+f'|{product_id}', expires=expires) # 쿠키 생성
+                    
+        # else: # 쿠키에 hit 값이 없을 경우(즉 현재 보는 게시글이 첫 게시글임)
+        #     queryset.visit_cnt += 1
+        #     queryset.save()
+        #     response.set_cookie('hit', product_id, expires=expires)
 
-        # if not Visit.objects.filter(user_ip=ip, product=id).exists():
-        #     product.visit_cnt += 1 
-        #     product.save()
-
-        #     Visit.objects.create(
-        #         user = self.request.user,
-        #         user_ip = ip,
-        #         product = product
-        # )
-
-        return Response(serializer.data)
+        return response
 
 
                 
