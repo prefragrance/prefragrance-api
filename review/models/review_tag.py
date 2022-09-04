@@ -10,3 +10,10 @@ class ReviewTag(models.Model):
         db_table = "review_tag"
         verbose_name = "Review Tag"
         verbose_name_plural = "Review Tag"
+        # 하나의 리뷰에 중복된 태그가 없도록
+        constraints = [
+            models.UniqueConstraint(
+                fields=["review", "tag"],
+                name="unique_review_tag",
+            )
+        ]

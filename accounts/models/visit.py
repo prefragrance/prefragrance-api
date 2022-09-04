@@ -25,4 +25,10 @@ class Visit(models.Model):
         verbose_name = "Visit"
         verbose_name_plural = "Visits"
         db_table = "visits"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "product"],
+                name="unique_visit_product_by_user",
+            )
+        ]
 
