@@ -1,2 +1,1 @@
 from .search_serializer import SearchSerializer
-from .product_search_serializer import ProductSearchSerializer

@@ -2,11 +2,10 @@ from rest_framework.serializers import ModelSerializer
 
 from product.models import Product
 
-from tag.models import Tag
 from tag.serializers import TagSerializer
 
-class ProductSearchSerializer(ModelSerializer):
-    """Serializer definition for ProductSearch Model."""
+class ProductSerializer(ModelSerializer):
+    """Serializer definition for Product Model."""
 
     tags = TagSerializer(
         read_only = False,
@@ -14,7 +13,7 @@ class ProductSearchSerializer(ModelSerializer):
     )
 
     class Meta:
-        """Meta definition for ProductSearchSerializer."""
+        """Meta definition for ProductSerializer."""
 
         model = Product
         fields = ["id", "name", "producer", "feedback_cnt", "review_cnt",

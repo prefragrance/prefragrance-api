@@ -9,13 +9,9 @@ from rest_framework.filters import OrderingFilter, SearchFilter
 from datetime import datetime
 from django.db.models import Q
 
-from search.serializers import (
-    ProductSearchSerializer,
-    SearchSerializer,
-)
-from search.models import (
-    Search,
-)
+from search.serializers import SearchSerializer
+from product.serializers import ProductSerializer
+from search.models import Search
 
 from product.models import Product, ProductTag, Category
 from tag.models import Tag
@@ -23,7 +19,7 @@ from tag.models import Tag
 class SearchAPIView(ListAPIView):
     permission_classes = [AllowAny]
     queryset = Product.objects.all()
-    serializer_class = ProductSearchSerializer
+    serializer_class = ProductSerializer
     filter_backends = [
         OrderingFilter,
         SearchFilter,
