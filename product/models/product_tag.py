@@ -14,3 +14,11 @@ class ProductTag(models.Model):
         default=0,
         blank=False,
     )
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["product", "tag"],
+                name="unique_product_tag",
+            )
+        ]
+
