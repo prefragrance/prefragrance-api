@@ -8,8 +8,9 @@ from rest_framework.filters import OrderingFilter, SearchFilter
 
 from datetime import datetime
 from django.db.models import Q
+from search.models import RecommendSearch
 
-from search.serializers import SearchSerializer
+from search.serializers import SearchSerializer, RecommendSearchSerializer
 from product.serializers import ProductSerializer
 from search.models import Search
 
@@ -45,6 +46,10 @@ class SearchAPIView(ListAPIView):
             if tab == "popular":
                 queryset = Search.objects.all()[:4]
                 serializer = SearchSerializer(queryset, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            elif tab == "recommend":
+                queryset = RecommendSearch.objects.all()
+                serializer = RecommendSearchSerializer(queryset, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
 
         if category:
