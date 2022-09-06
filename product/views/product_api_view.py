@@ -15,11 +15,10 @@ from product.serializers import ProductDetailSerializer
 from product.models import Product
 
 class ProductDetailView(RetrieveAPIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [AllowAny]
     queryset = Product.objects.all()
     serializer_class = ProductDetailSerializer
-    
+
     def get(self, request, **kwargs):
         product_id = kwargs.get('id')
         product = get_object_or_404(self.get_queryset(), id=product_id)
@@ -65,7 +64,6 @@ class ProductDetailView(RetrieveAPIView):
                 
 class ProductLikeView(APIView):
     http_method_names = ['post']
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request, **kwargs):
