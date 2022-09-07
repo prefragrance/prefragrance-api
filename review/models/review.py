@@ -11,11 +11,11 @@ class Review(models.Model):
         SUMMER = 2
         AUTUMN = 3
         WINTER = 4
-    
+
     class Time(models.IntegerChoices):
         DAY = 1
         NIGHT = 2
-    
+
     class Duration(models.IntegerChoices):
         LOW = 1
         MID = 2

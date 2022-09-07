@@ -15,11 +15,10 @@ from product.serializers import ProductDetailSerializer
 from product.models import Product
 
 class ProductDetailView(RetrieveAPIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [AllowAny]
     queryset = Product.objects.all()
     serializer_class = ProductDetailSerializer
-    
+
     def get(self, request, **kwargs):
         product_id = kwargs.get('id')
         product = get_object_or_404(self.get_queryset(), id=product_id)
@@ -42,18 +41,18 @@ class ProductDetailView(RetrieveAPIView):
 
         tomorrow = datetime.replace(datetime.now(), hour=23, minute=59, second=0)
         expires = datetime.strftime(tomorrow, "%a, %d-%b-%Y %H:%M:%S GMT")
-        
+
         response = Response(serializer.data, status=status.HTTP_200_OK)
-        
+
         # 쿠키 읽기 & 생성
         if request.COOKIES.get(cookie_name) is not None: # 쿠키에 hit 값이 이미 있을 경우
             cookies = request.COOKIES.get(cookie_name)
-            cookies_list = cookies.split('|') 
+            cookies_list = cookies.split('|')
             if str(product_id) not in cookies_list:
                 product.visit_cnt += 1
                 product.save()
                 response.set_cookie(cookie_name, cookies+f'|{product_id}', expires=expires) # 쿠키 생성
-                    
+
         else: # 쿠키에 hit 값이 없을 경우(즉 현재 보는 게시글이 첫 게시글임)
             product.visit_cnt += 1
             product.save()
@@ -62,10 +61,8 @@ class ProductDetailView(RetrieveAPIView):
         return response
 
 
-                
 class ProductLikeView(APIView):
     http_method_names = ['post']
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request, **kwargs):
@@ -73,16 +70,15 @@ class ProductLikeView(APIView):
         product_id = kwargs.get('id')
         if not Product.objects.filter(id=product_id).exists():
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        
+
         product = Product.objects.get(id=product_id)
 
         if product.liked_users.filter(id=user.id).exists():
             product.liked_users.remove(user)
         else:
             product.liked_users.add(user)
-        
+
         product.feedback_cnt = product.liked_users.count()
         product.save()
 
         return Response(status=status.HTTP_200_OK)
-        

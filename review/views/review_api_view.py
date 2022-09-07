@@ -16,7 +16,6 @@ from product.models import Product
 
 
 class ReviewView(ListCreateAPIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
@@ -27,7 +26,7 @@ class ReviewView(ListCreateAPIView):
     def post(self, request, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer) 
+        self.perform_create(serializer)
 
         if not Product.objects.filter(id=kwargs.get('id')).exists():
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -45,7 +44,6 @@ class ReviewView(ListCreateAPIView):
 
 class ReviewLikeView(APIView):
     http_method_names = ['post']
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request, **kwargs):
@@ -53,7 +51,7 @@ class ReviewLikeView(APIView):
         review_id = kwargs.get('review_id')
         if not Review.objects.filter(id=review_id).exists():
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        
+
         review = Review.objects.get(id=review_id)
 
         if review.liked_users.filter(id=user.id).exists():
@@ -67,7 +65,6 @@ class ReviewLikeView(APIView):
         return Response(status=status.HTTP_200_OK)
 
 class ReviewDetailView(RetrieveUpdateDestroyAPIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
