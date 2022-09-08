@@ -8,7 +8,6 @@ class SearchLog(models.Model):
 
     content = models.CharField(
         max_length=30,
-        unique=True,
     )
 
     pub_date = models.DateTimeField(

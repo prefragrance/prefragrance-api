@@ -109,30 +109,33 @@ class SearchAPIView(ListAPIView):
         elif search:
             search_word = f'{search}'
 
-        cookie_value = search_word
-        cookie_value = cookie_value.encode("EUC-KR")
+        cookie_value = search_word.encode('utf-8')
 
-        one_hour = datetime.replace(datetime.now(), hour=1, minute=0, second=0)
+        one_hour = datetime.replace(datetime.now(), hour=23, minute=59, second=0)
         expires = datetime.strftime(one_hour, "%a, %d-%b-%Y %H:%M:%S GMT")
 
-        response = Response(status=status.HTTP_200_OK)
+        response = Response(search_word,status=status.HTTP_201_CREATED)
 
-        if request.COOKIES.get(cookie_name) is not None: # 쿠키에 hit 값이 이미 있을 경우
+        if request.COOKIES.get(cookie_name) is not None:
             cookies = request.COOKIES.get(cookie_name)
             cookies_list = cookies.split('|')
-            if cookie_value not in cookies_list:
+
+            if str(cookie_value) not in cookies_list:
                 SearchLog(
                     content = search_word,
                     pub_date = datetime.now()
                 ).save()
-                response.set_cookie(cookie_name, cookies+f'|{cookie_value}', expires=expires) # 쿠키 생성
+                response.set_cookie(cookie_name, cookies+f'|{cookie_value}', expires=expires)
 
-        else: # 쿠키에 hit 값이 없을 경우(즉 현재 보는 게시글이 첫 게시글임)
+        else:
+            print('here')
+            print(response.cookies)
             SearchLog(
                     content = search_word,
                     pub_date = datetime.now()
                 ).save()
+
             response.set_cookie(cookie_name, cookie_value, expires=expires)
-            print(response.cookies)
 
         return response
+
