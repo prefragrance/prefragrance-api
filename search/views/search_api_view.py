@@ -27,11 +27,11 @@ class SearchAPIView(ListAPIView):
         DjangoFilterBackend,
     ]
     search_fields = [
-                     'name',
-                     'producer',
-                     'tags__name',
-                     'codes__name',
-                     'category__name'
+        'name',
+        'producer',
+        'tags__name',
+        'codes__name',
+        'category__name'
                     ]
 
     def get(self, request):
@@ -40,8 +40,7 @@ class SearchAPIView(ListAPIView):
         - tab 에 따라서 검색어가 반환된다
         """
 
-        #검색어가 없을 경우에는 전체
-        products = self.get_queryset()
+        products = self.filter_queryset(self.get_queryset())
 
         q_field = request.GET.get("q_field")
         q = request.GET.get("q")
@@ -77,8 +76,6 @@ class SearchAPIView(ListAPIView):
             product_ids = ProductTag.objects.filter(
                 tag__in = tag,
             ).values_list('product__id', flat=True)
-        else:
-            products = self.filter_queryset(self.get_queryset())
 
         page = self.paginate_queryset(products)
 
