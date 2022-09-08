@@ -26,6 +26,13 @@ class SearchAPIView(ListAPIView):
         SearchFilter,
         DjangoFilterBackend,
     ]
+    search_fields = [
+                     'name',
+                     'producer',
+                     'tags__name',
+                     'codes__name',
+                     'category__name'
+                    ]
 
     def get(self, request):
         """SearchAPIView
@@ -40,7 +47,6 @@ class SearchAPIView(ListAPIView):
         q = request.GET.get("q")
         tab = request.GET.get("tab")
         category = request.GET.get("c")
-        standard = request.GET.get("s")
 
         if tab:
             if tab == "popular":
@@ -71,19 +77,8 @@ class SearchAPIView(ListAPIView):
             product_ids = ProductTag.objects.filter(
                 tag__in = tag,
             ).values_list('product__id', flat=True)
-
-        if standard == 'star':
-            products = Product.objects.filter(
-            id__in = product_ids
-        ).order_by('-rate')
-        elif standard == 'view':
-            products = Product.objects.filter(
-            id__in = product_ids
-        ).order_by('-view')
-        elif standard == 'review':
-            products = Product.objects.filter(
-            id__in = product_ids
-        ).order_by('-review')
+        else:
+            products = self.filter_queryset(self.get_queryset())
 
         page = self.paginate_queryset(products)
 
