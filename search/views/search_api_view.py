@@ -6,14 +6,14 @@ from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.db.models import Q
-from search.models import RecommendSearch
+from collections import Counter
 
+from search.models import RecommendSearch
 from search.serializers import SearchSerializer, RecommendSearchSerializer
 from product.serializers import ProductSerializer
-from search.models import Search
-
+from search.models import Search, SearchLog
 from product.models import Product, ProductTag, Category
 from tag.models import Tag
 
@@ -49,9 +49,20 @@ class SearchAPIView(ListAPIView):
 
         if tab:
             if tab == "popular":
-                queryset = Search.objects.all()[:4]
-                serializer = SearchSerializer(queryset, many=True)
-                return Response(serializer.data, status=status.HTTP_200_OK)
+                end_date = datetime.today()
+                start_date = end_date - timedelta(days=7)
+
+                search_words = SearchLog.objects.filter(
+                    pub_date__range = [start_date,end_date]
+                ).values_list('content',flat=True)
+
+                counter = Counter(search_words)
+                result_words = []
+                for word in counter.most_common(4):
+                    result_words.append(word[0])
+
+                return Response(result_words, status=status.HTTP_200_OK)
+
             elif tab == "recommend":
                 queryset = RecommendSearch.objects.all()
                 serializer = RecommendSearchSerializer(queryset, many=True)
@@ -89,18 +100,42 @@ class SearchAPIView(ListAPIView):
 
     def post(self, request):
         q = request.GET.get("q")
+        search = request.GET.get("search")
 
-        #로그인 되어 있는 경우
-        if request.user.is_authenticated:
+        cookie_name = 'search'
 
-            #검색어가 일치하는 객체 있는지 확인
-            search, is_created = Search.objects.get_or_create(
-                content = q
-            )
+        if q:
+            search_word = f'{q}'
+        elif search:
+            search_word = f'{search}'
 
-            search.increment_search_count()
+        cookie_value = search_word.encode('utf-8')
 
-            return Response(status=status.HTTP_201_CREATED)
+        one_hour = datetime.replace(datetime.now(), hour=23, minute=59, second=0)
+        expires = datetime.strftime(one_hour, "%a, %d-%b-%Y %H:%M:%S GMT")
+
+        response = Response(search_word,status=status.HTTP_201_CREATED)
+
+        if request.COOKIES.get(cookie_name) is not None:
+            cookies = request.COOKIES.get(cookie_name)
+            cookies_list = cookies.split('|')
+
+            if str(cookie_value) not in cookies_list:
+                SearchLog(
+                    content = search_word,
+                    pub_date = datetime.now()
+                ).save()
+                response.set_cookie(cookie_name, cookies+f'|{cookie_value}', expires=expires)
 
         else:
-            return Response(status=status.HTTP_403_FORBIDDEN)
+            print('here')
+            print(response.cookies)
+            SearchLog(
+                    content = search_word,
+                    pub_date = datetime.now()
+                ).save()
+
+            response.set_cookie(cookie_name, cookie_value, expires=expires)
+
+        return response
+
