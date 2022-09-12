@@ -1,18 +1,15 @@
+from django.db.models import Sum
 from rest_framework import status
+from rest_framework.generics import (ListCreateAPIView,
+                                     RetrieveUpdateDestroyAPIView)
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.decorators import authentication_classes, permission_classes
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import IsAuthenticated
 
-from django.db.models import Sum
-
-from product.permissions import IsOwnerOrReadOnly
-
-from review.serializers import ReviewSerializer
-from review.models import Review
 from product.models import Product
+from product.permissions import IsOwnerOrReadOnly
+from review.models import Review
+from review.serializers import ReviewSerializer
 
 
 class ReviewView(ListCreateAPIView):
@@ -21,34 +18,35 @@ class ReviewView(ListCreateAPIView):
     serializer_class = ReviewSerializer
 
     def perform_create(self, serializer):
-        serializer.save(user = self.request.user)
+        serializer.save(user=self.request.user)
 
     def post(self, request, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
 
-        if not Product.objects.filter(id=kwargs.get('id')).exists():
+        if not Product.objects.filter(id=kwargs.get("id")).exists():
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        product = Product.objects.get(id=kwargs.get('id'))
+        product = Product.objects.get(id=kwargs.get("id"))
 
         product.review_cnt = product.reviews.count()
-        rate_sum = product.reviews.aggregate(Sum('rate'))
-        product.rate_sum = rate_sum['rate__sum']
+        rate_sum = product.reviews.aggregate(Sum("rate"))
+        product.rate_sum = rate_sum["rate__sum"]
         product.rate = product.rate_sum / product.review_cnt
 
         product.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+
 class ReviewLikeView(APIView):
-    http_method_names = ['post']
+    http_method_names = ["post"]
     permission_classes = [IsAuthenticated]
 
     def post(self, request, **kwargs):
         user = request.user
-        review_id = kwargs.get('review_id')
+        review_id = kwargs.get("review_id")
         if not Review.objects.filter(id=review_id).exists():
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -58,11 +56,12 @@ class ReviewLikeView(APIView):
             review.liked_users.remove(user)
         else:
             review.liked_users.add(user)
-        
+
         review.feedback_cnt = review.liked_users.count()
         review.save()
 
         return Response(status=status.HTTP_200_OK)
+
 
 class ReviewDetailView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
