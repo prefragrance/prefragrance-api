@@ -1,4 +1,5 @@
 from django.db.models import Sum
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.generics import (ListCreateAPIView,
                                      RetrieveUpdateDestroyAPIView)
@@ -47,10 +48,12 @@ class ReviewLikeView(APIView):
     def post(self, request, **kwargs):
         user = request.user
         review_id = kwargs.get("review_id")
-        if not Review.objects.filter(id=review_id).exists():
-            return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        review = Review.objects.get(id=review_id)
+
+        review = get_object_or_404(
+            Review,
+            id = review_id
+        )
 
         if review.liked_users.filter(id=user.id).exists():
             review.liked_users.remove(user)
