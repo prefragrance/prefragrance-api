@@ -1,18 +1,9 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 
 from product.models import Category, Product
 from tag.serializers import TagSerializer
 
-
-class CategorySerializer(ModelSerializer):
-    """Serializer definition for Category Model"""
-
-    model = Category
-    fields = ["name"]
-    read_only_fields = ["name"]
-
-
-class ProductSerializer(ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     """Serializer definition for Product Model."""
 
     tags = TagSerializer(
@@ -20,9 +11,8 @@ class ProductSerializer(ModelSerializer):
         many=True,
     )
 
-    category = CategorySerializer(
-        read_only=True,
-        many=False,
+    category = serializers.CharField(
+        source = "category.name"
     )
 
     class Meta:
