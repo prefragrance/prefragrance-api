@@ -29,13 +29,7 @@ class ReviewView(ListCreateAPIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         product = Product.objects.get(id=kwargs.get("id"))
-
-        product.review_cnt = product.reviews.count()
-        rate_sum = product.reviews.aggregate(Sum("rate"))
-        product.rate_sum = rate_sum["rate__sum"]
-        product.rate = product.rate_sum / product.review_cnt
-
-        product.save()
+        product.reset_product_review_cnt_and_rate()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
