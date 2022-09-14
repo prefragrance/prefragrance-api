@@ -9,6 +9,7 @@ class User(AbstractUser):
     GENDER_CHOICES = (
         ("M", "Male"),
         ("F", "Female"),
+        ("NB", "Non_Binary"),
     )
 
     nickname = models.CharField(max_length=100)

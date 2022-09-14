@@ -14,6 +14,7 @@ class CustomRegisterSerializer(RegisterSerializer):
         choices=[
             ("M", "Male"),
             ("F", "Female"),
+            ("NB", "Non_Binary"),
         ],
     )
 
