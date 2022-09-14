@@ -45,3 +45,4 @@ class UserAbstractSerializer(serializers.ModelSerializer):
             "username",
             "email",
         ]
+
