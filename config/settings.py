@@ -140,16 +140,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.User'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': env("db_name"),
-        'USER': env('db_user'),
-        'PASSWORD': env('db_password'),
-        'HOST': env('db_host'),
-        'PORT': env('db_port')
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': env("db_name"),
+#         'USER': env('db_user'),
+#         'PASSWORD': env('db_password'),
+#         'HOST': env('db_host'),
+#         'PORT': env('db_port')
+#     }
+# }
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -193,4 +193,23 @@ AUTHENTICATION_BACKENDS = (
 REST_AUTH_SERIALIZERS = {
     "USER_DETAILS_SERIALIZER": "accounts.serializers.UserAbstractSerializer",
     "JWT_SERIALIZER": "accounts.serializers.UserJWTSerializer",
+}
+
+# sql 로깅 관련 설정
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "debug-console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "django.db.backends": {
+            "level": "DEBUG",
+            "handlers": ["debug-console"],
+        },
+    },
 }
