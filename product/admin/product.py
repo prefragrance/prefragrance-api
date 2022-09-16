@@ -4,12 +4,13 @@ from review.models import Review
 import random
 
 def copy_product(self, request, queryset):
-    string_pool = "abcdef"
+    string_pool = "abcdefghijklmnopqrstuvwxyz"
 
     for product in queryset:
         random_string = random.choice(string_pool)
         product.pk = None
         product.name = product.name + random_string
+        product.producer = product.producer + random_string
         product.save()
 
 

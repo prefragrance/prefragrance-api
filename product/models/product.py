@@ -1,6 +1,8 @@
 from django.db import models
+from django.db.models import Sum
 
-# Create your models clehere.
+from review.models import Review
+
 
 class Product(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False) # primary key
@@ -27,5 +29,13 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def reset_product_review_cnt_and_rate(self):
+        self.review_cnt = Review.objects.filter(product=self).count()
+        rate_sum = self.reviews.aggregate(Sum("rate"))
+        self.rate_sum = rate_sum["rate__sum"]
+        self.rate = self.rate_sum / self.review_cnt
+        self.save()
+
 
 
