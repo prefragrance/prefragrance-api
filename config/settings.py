@@ -190,8 +190,29 @@ REST_AUTH_SERIALIZERS = {
     "JWT_SERIALIZER": "accounts.serializers.UserJWTSerializer",
 }
 
+
+# sql 로깅 관련 설정
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "debug-console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "django.db.backends": {
+            "level": "DEBUG",
+            "handlers": ["debug-console"],
+        },
+    },
+}
+
 ACCOUNT_ADAPTER = "accounts.adapters.CustomAccountAdapter"
 
 REST_AUTH_REGISTER_SERIALIZERS = {
     "REGISTER_SERIALIZER": "accounts.serializers.CustomRegisterSerializer",
 }
+
