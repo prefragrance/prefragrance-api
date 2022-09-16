@@ -140,16 +140,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.User'
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': env("db_name"),
-#         'USER': env('db_user'),
-#         'PASSWORD': env('db_password'),
-#         'HOST': env('db_host'),
-#         'PORT': env('db_port')
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': env("db_name"),
+        'USER': env('db_user'),
+        'PASSWORD': env('db_password'),
+        'HOST': env('db_host'),
+        'PORT': env('db_port')
+    }
+}
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
