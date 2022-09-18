@@ -1,8 +1,9 @@
 from rest_framework import serializers
 
 from product.models import Product
-from tag.serializers import TagSerializer
 from review.serializers import ReviewSerializer
+from tag.serializers import TagSerializer
+
 
 class ProductDetailSerializer(serializers.ModelSerializer):
     reviews = ReviewSerializer(many=True)
@@ -12,9 +13,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         many=True,
     )
 
-    category = serializers.CharField(
-        source = 'category.name'
-    )
+    category = serializers.CharField(source="category.name")
 
     class Meta:
         model = Product
@@ -27,6 +26,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
             "codes",
             "feedback_cnt",
             "review_cnt",
+            "visit_cnt",
             "thumbnail_url",
             "rate_sum",
             "rate",
