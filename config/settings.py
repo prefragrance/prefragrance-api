@@ -176,9 +176,10 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_AUTHENTICATION_METHOD = "username"
 ACCOUNT_EMAIL_VERIFICATION = "none"
 ROOT_URLCONF = "config.urls"
+ACCOUNT_LOGOUT_ON_GET = True
 
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
@@ -188,6 +189,7 @@ AUTHENTICATION_BACKENDS = (
 REST_AUTH_SERIALIZERS = {
     "USER_DETAILS_SERIALIZER": "accounts.serializers.UserAbstractSerializer",
     "JWT_SERIALIZER": "accounts.serializers.UserJWTSerializer",
+    "LOGIN_SERIALIZER": "accounts.serializers.CustomLoginSerializer",
 }
 
 
@@ -215,4 +217,3 @@ ACCOUNT_ADAPTER = "accounts.adapters.CustomAccountAdapter"
 REST_AUTH_REGISTER_SERIALIZERS = {
     "REGISTER_SERIALIZER": "accounts.serializers.CustomRegisterSerializer",
 }
-
