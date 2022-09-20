@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "drf_yasg",
     "rest_framework",
+    "nplusone.ext.django",
     "accounts",
     "product",
     "tag",
@@ -61,6 +62,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "nplusone.ext.django.NPlusOneMiddleware",
     'corsheaders.middleware.CorsMiddleware',
 ]
 
@@ -201,6 +203,9 @@ LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
         "debug-console": {
             "level": "DEBUG",
             "class": "logging.StreamHandler",
@@ -211,8 +216,13 @@ LOGGING = {
             "level": "DEBUG",
             "handlers": ["debug-console"],
         },
+        "nplusone": {
+            "handlers": ["console"],
+            "level": "WARN",
+        },
     },
 }
+
 
 ACCOUNT_ADAPTER = "accounts.adapters.CustomAccountAdapter"
 
@@ -220,5 +230,8 @@ REST_AUTH_REGISTER_SERIALIZERS = {
     "REGISTER_SERIALIZER": "accounts.serializers.CustomRegisterSerializer",
 }
 
+NPLUSONE_RAISE = True
+
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
