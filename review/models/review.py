@@ -1,7 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from accounts.models import User
-from product.models import Product
 
 
 class Review(models.Model):
@@ -27,7 +26,7 @@ class Review(models.Model):
         HIGH = 3
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="사용자")
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="제품", related_name="reviews")
+    product = models.ForeignKey('product.Product', on_delete=models.CASCADE, verbose_name="제품", related_name="reviews")
     season = models.IntegerField(choices=Season.choices)
     time = models.IntegerField(choices=Time.choices)
     duration = models.IntegerField(choices=Duration.choices)
