@@ -1,6 +1,5 @@
 import random
 from product.models import Code, Product
-from product.serializers import magazine_serializer
 from review.models import Review
 
 from rest_framework.generics import ListAPIView
