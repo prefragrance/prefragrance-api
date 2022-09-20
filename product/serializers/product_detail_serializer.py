@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from product.models import Product
+from product.serializers.code_serializer import CodeSerializer
 from tag.serializers import TagSerializer
 from review.serializers import ReviewSerializer
 
@@ -14,6 +15,11 @@ class ProductDetailSerializer(serializers.ModelSerializer):
 
     category = serializers.CharField(
         source = 'category.name'
+    )
+
+    codes = CodeSerializer(
+        read_only=False,
+        many=True,
     )
 
     class Meta:
