@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from product.models import Category, Product
 from tag.serializers import TagSerializer
+from product.serializers.code_serializer import CodeSerializer
 
 class ProductSerializer(serializers.ModelSerializer):
     """Serializer definition for Product Model."""
@@ -13,6 +14,11 @@ class ProductSerializer(serializers.ModelSerializer):
 
     category = serializers.CharField(
         source = "category.name"
+    )
+
+    codes = CodeSerializer(
+        read_only=False,
+        many=True,
     )
 
     class Meta:
@@ -31,6 +37,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "rate_sum",
             "rate",
             "tags",
+            "codes",
         ]
 
         read_only_fields = [
@@ -45,4 +52,5 @@ class ProductSerializer(serializers.ModelSerializer):
             "rate_sum",
             "rate",
             "tags",
+            "codes",
         ]
