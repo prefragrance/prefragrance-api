@@ -6,7 +6,7 @@ from rest_framework.response import Response
 
 from datetime import datetime, timedelta
 from collections import Counter
-
+from drf_yasg.utils import swagger_auto_schema
 
 from product.models import Product
 from product.serializers import ProductSerializer
@@ -20,9 +20,12 @@ class ProductHotAPIView(ListAPIView):
 
     def get(self, request, *args, **kwargs):
         """
+        주간 핫한 취향
+        s 는 정렬 기준 의미
         url : /product/hot?s=review
         /product/hot?s=visit
         """
+
         standard = request.GET.get("s")
 
         end_date = datetime.today()

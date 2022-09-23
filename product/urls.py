@@ -4,7 +4,7 @@ from product.views import (
     ProductDetailView,
     ProductLikeView,
     ProductHotAPIView,
-    Recommend,
+    MagazineAPIView
 )
 
 app_name = "product"
@@ -14,5 +14,5 @@ urlpatterns = [
     path("<int:id>/review/", include('review.urls')),
     path("<int:id>/like/", ProductLikeView.as_view()),
     path("hot/", ProductHotAPIView.as_view()),
-    path('', Recommend.as_view()),
+    path('', MagazineAPIView.as_view()),
 ]
