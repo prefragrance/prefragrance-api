@@ -15,7 +15,13 @@ from review.models import Review
 
 class ProductHotAPIView(ListAPIView):
     permission_classes = [AllowAny]
-    queryset = Product.objects.all()
+    queryset = (
+        Product.objects.all()
+        .select_related(
+            "category",
+        )
+        .prefetch_related("tags", "codes")
+    )
     serializer_class = ProductSerializer
 
     def get(self, request, *args, **kwargs):
@@ -26,6 +32,7 @@ class ProductHotAPIView(ListAPIView):
         /product/hot?s=visit
         """
 
+        products = self.filter_queryset(self.get_queryset())
         standard = request.GET.get("s")
 
         end_date = datetime.today()
@@ -46,7 +53,7 @@ class ProductHotAPIView(ListAPIView):
         for count in counter.most_common(5):
             result_product_ids.append(count[0])
 
-        queryset = self.get_queryset().filter(id__in=result_product_ids)
+        queryset = products.filter(id__in=result_product_ids)
 
         serializer = self.get_serializer(queryset, many=True)
 
