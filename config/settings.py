@@ -28,22 +28,19 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+]
+
+PACKAGE_APPS = [
     "drf_yasg",
     "rest_framework",
     "nplusone.ext.django",
-    "accounts",
-    "product",
-    "tag",
-    "review",
-    "search",
-    # 유저 관련
     "rest_framework.authtoken",
     "dj_rest_auth",
     "django.contrib.sites",
@@ -53,6 +50,16 @@ INSTALLED_APPS = [
     "dj_rest_auth.registration",
     "corsheaders",
 ]
+
+PROJECT_APPS = [
+    "accounts",
+    "product",
+    "tag",
+    "review",
+    "search",
+]
+
+INSTALLED_APPS = DJANGO_APPS + PACKAGE_APPS + PROJECT_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
