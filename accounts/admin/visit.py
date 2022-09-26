@@ -1,5 +1,7 @@
 from django.contrib import admin
+
 from accounts.models import Visit
+
 
 @admin.register(Visit)
 class VisitAdmin(admin.ModelAdmin):
@@ -8,8 +10,7 @@ class VisitAdmin(admin.ModelAdmin):
     list_display = (
         "user",
         "product",
-    )
-
-    ordering = (
         "pub_date",
     )
+
+    ordering = ("pub_date",)
