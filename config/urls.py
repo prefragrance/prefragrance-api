@@ -39,4 +39,5 @@ urlpatterns = [
     path("api/search/",include('search.urls')),
     path("api/product/", include('product.urls')),
     path("api/review/", include('review.urls')),
+    path("api/mypage/", include('mypage.urls')),
 ]
