@@ -28,3 +28,10 @@ class User(AbstractUser):
     profile_img = models.ImageField(
         null=True, blank=True, verbose_name="프로필 이미지", upload_to=profile_img_upload_path
     )
+    introduce = models.CharField(
+        max_length=300,
+        null=True,
+        blank=True,
+        verbose_name="사용자 소개",
+        default="사용자 소개가 없습니다.",
+    )
