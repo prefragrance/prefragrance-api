@@ -1,0 +1,1 @@
+from .mypage_review_serializer import MyPageReviewSerializer
