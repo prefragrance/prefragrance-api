@@ -1,5 +1,7 @@
 from rest_framework import serializers
+
 from review.models import Review
+
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,6 +22,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         read_only_fields = [
             "id",
             "user",
+            "product",
             "pub_date",
             "feedback_cnt",
         ]
