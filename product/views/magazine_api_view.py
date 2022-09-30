@@ -15,10 +15,10 @@ from tag.models import Tag
 class MagazineAPIView(ListAPIView):
     """
     매거진 api
-    /product?code=코드명
-    /product?tag=태그명
-    /product?season=계절명
-    /product => 랜덤으로 코드/태그 추출
+    /product/magazine/?code=코드명
+    /product/magazine/?tag=태그명
+    /product/magazine/?season=계절명
+    /product/magazine => 랜덤으로 코드/태그 추출
     """
 
     permission_classes = [AllowAny]
