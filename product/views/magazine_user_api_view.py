@@ -41,9 +41,8 @@ class MagazineUserAPIView(ListAPIView):
         else:
             gender = random.choice(["M", "F", "NB"])
             start_age = random.randint(1, 6) * 10
-
         last_age = start_age + 9
-        print(start_age)
+        result = {"age": [start_age], "gender": [gender]}
         if start_age < 60:
             user_ids = User.objects.filter(
                 Q(gender=gender) & Q(age__range=[start_age, last_age])
@@ -61,4 +60,4 @@ class MagazineUserAPIView(ListAPIView):
         queryset = products.filter(id__in=product_id)
         serializer = self.get_serializer(queryset, many=True)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response([result, serializer.data], status=status.HTTP_200_OK)
