@@ -1,3 +1,5 @@
+import json
+
 from collections import Counter
 from datetime import datetime, timedelta
 
@@ -65,7 +67,8 @@ class SearchAPIView(ListAPIView):
         elif tab == "recommend":
             queryset = RecommendSearch.objects.all()
             serializer = RecommendSearchSerializer(queryset, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            value_list = [i.values() for i in serializer.data] #반복문을 최적화하는 방법이 어떤 게 있을까요? async 통한 비동기 처리...?
+            return Response(value_list, status=status.HTTP_200_OK)
 
         if category:
             products = products.filter(category__name=category)
