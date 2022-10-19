@@ -1,0 +1,5 @@
+from .magazine_api_view import MagazineAPIView
+from .magazine_user_api_view import MagazineUserAPIView
+from .product_api_view import ProductDetailView
+from .product_hot_api_view import ProductHotAPIView
+from .product_like_api_view import ProductLikeView
