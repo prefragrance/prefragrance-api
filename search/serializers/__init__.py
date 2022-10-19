@@ -1,2 +1,0 @@
-from .search_serializer import SearchSerializer
-from .recommend_search_serializer import RecommendSearchSerializer
