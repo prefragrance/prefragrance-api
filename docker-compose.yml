@@ -23,3 +23,20 @@ services:
       MYSQL_ROOT_PASSWORD: ${db_password}
       MYSQL_DATABASE: ${db_name}
       MYSQL_HOST: ${db_host}
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: ./Dockerfile
+    image: nginx-image
+    container_name: nginx-container
+    ports:
+      - 80:80
+    depends_on:
+      - webapp
+    links:
+      - webapp
+    entrypoint:
+      - /docker-entrypoint.sh
+    volumes:
+      - ./logs:/var/log/nginx
+
