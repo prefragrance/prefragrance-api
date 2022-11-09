@@ -23,7 +23,7 @@ class Product(models.Model):
     visit_cnt = models.IntegerField(default=0)
     thumbnail_url = models.URLField(null=True, blank=True)
     rate_sum = models.FloatField(null=True, blank=True)
-    rate = models.IntegerField(default=0)
+    rate = models.FloatField(default=0)
     liked_users = models.ManyToManyField(
         "accounts.User",
         through="product.ProductFeedback",
