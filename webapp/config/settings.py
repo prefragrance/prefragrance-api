@@ -49,12 +49,12 @@ PACKAGE_APPS = [
     "allauth.socialaccount",
     "dj_rest_auth.registration",
     "corsheaders",
+    "taggit",
 ]
 
 PROJECT_APPS = [
     "accounts",
     "product",
-    "tag",
     "review",
     "search",
     "mypage",
@@ -247,3 +247,6 @@ NPLUSONE_WHITELIST = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
+TAGGIT_CASE_INSENSITIVE = True
+TAGGIT_LIMIT = 50
