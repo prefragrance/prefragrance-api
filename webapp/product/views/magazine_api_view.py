@@ -5,11 +5,11 @@ from rest_framework import status
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from taggit.models import Tag, TaggedItem
 
-from product.models import Code, Product, ProductCode, ProductTag
+from product.models import Code, Product, ProductCode
 from product.serializers import ProductSerializer
 from review.models import Review
-from tag.models import Tag
 
 
 class MagazineAPIView(ListAPIView):
@@ -24,11 +24,7 @@ class MagazineAPIView(ListAPIView):
     permission_classes = [AllowAny]
     serializer_class = ProductSerializer
     queryset = (
-        Product.objects.all()
-        .select_related(
-            "category",
-        )
-        .prefetch_related("tags", "codes")
+        Product.objects.all().select_related("category").prefetch_related("codes")
     )
 
     def get(self, request):
@@ -58,8 +54,8 @@ class MagazineAPIView(ListAPIView):
             )
 
         elif tag:
-            product_ids = ProductTag.objects.filter(tag__name=tag).values_list(
-                "product__id", flat=True
+            product_ids = TaggedItem.objects.filter(tag__name=tag).values_list(
+                "object_id", flat=True
             )
 
         elif season:

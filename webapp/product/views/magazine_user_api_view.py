@@ -2,6 +2,7 @@ import random
 from collections import Counter
 
 from django.db.models import Q
+from product.models.product_feedback import ProductFeedback
 from rest_framework import status
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
@@ -9,7 +10,6 @@ from rest_framework.response import Response
 
 from accounts.models import User
 from product.models import Product
-from product.models.product_feedback import ProductFeedback
 from product.serializers import ProductSerializer
 
 
@@ -29,7 +29,7 @@ class MagazineUserAPIView(ListAPIView):
         .select_related(
             "category",
         )
-        .prefetch_related("tags", "codes")
+        .prefetch_related("codes")
     )
 
     def get(self, request):
