@@ -1,10 +1,11 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
+from taggit.managers import TaggableManager
+
 from accounts.models import User
 
 
 class Review(models.Model):
-
     class Season(models.IntegerChoices):
         SPRING = 1
         SUMMER = 2
@@ -26,21 +27,24 @@ class Review(models.Model):
         HIGH = 3
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="사용자")
-    product = models.ForeignKey('product.Product', on_delete=models.CASCADE, verbose_name="제품", related_name="reviews")
+    product = models.ForeignKey(
+        "product.Product",
+        on_delete=models.CASCADE,
+        verbose_name="제품",
+        related_name="reviews",
+    )
     season = models.IntegerField(choices=Season.choices)
     time = models.IntegerField(choices=Time.choices)
     duration = models.IntegerField(choices=Duration.choices)
     strength = models.IntegerField(choices=Strength.choices)
     content = models.CharField(max_length=1500, verbose_name="내용")
-    rate = models.FloatField(validators=[MinValueValidator(0,5),MaxValueValidator(5.0)])
+    rate = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     pub_date = models.DateTimeField(auto_now=True, verbose_name="날짜")
     feedback_cnt = models.PositiveIntegerField(default=0)
-    liked_users = models.ManyToManyField('accounts.User', through='review.ReviewFeedback', related_name='liked_reviews')
-    tags = models.ManyToManyField(
-    "tag.Tag",
-    related_name="review_tags",
-    through="review.ReviewTag",
+    liked_users = models.ManyToManyField(
+        "accounts.User", through="review.ReviewFeedback", related_name="liked_reviews"
     )
+    tags = TaggableManager(blank=True)
 
     def __str__(self):
         return self.content
