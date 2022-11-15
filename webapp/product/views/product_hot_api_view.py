@@ -20,7 +20,7 @@ class ProductHotAPIView(ListAPIView):
         .select_related(
             "category",
         )
-        .prefetch_related("tags", "codes")
+        .prefetch_related("codes")
     )
     serializer_class = ProductSerializer
 

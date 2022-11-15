@@ -8,12 +8,12 @@ from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from taggit.models import Tag, TaggedItem
 
-from product.models import Category, Product, ProductTag
+from product.models import Category, Product
 from product.serializers import ProductSerializer
 from search.models import RecommendSearch, SearchLog
 from search.serializers import RecommendSearchSerializer
-from tag.models import Tag
 
 
 class SearchAPIView(ListAPIView):
@@ -23,7 +23,7 @@ class SearchAPIView(ListAPIView):
         .select_related(
             "category",
         )
-        .prefetch_related("tags", "codes")
+        .prefetch_related("codes")
     )
 
     serializer_class = ProductSerializer
@@ -80,9 +80,9 @@ class SearchAPIView(ListAPIView):
 
         elif q_field == "tag":
             tag = Tag.objects.filter(Q(name__contains=search))
-            product_ids = ProductTag.objects.filter(
+            product_ids = TaggedItem.objects.filter(
                 tag__in=tag,
-            ).values_list("product__id", flat=True)
+            ).values_list("object_id", flat=True)
             products = products.filter(id__in=product_ids)
 
         page = self.paginate_queryset(products)

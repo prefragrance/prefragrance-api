@@ -1,20 +1,16 @@
+from product.serializers.code_serializer import CodeSerializer
 from rest_framework import serializers
+from taggit.serializers import TaggitSerializer, TagListSerializerField
 
 from product.models import Category, Product
-from tag.serializers import TagSerializer
-from product.serializers.code_serializer import CodeSerializer
 
-class ProductSerializer(serializers.ModelSerializer):
+
+class ProductSerializer(TaggitSerializer, serializers.ModelSerializer):
     """Serializer definition for Product Model."""
 
-    tags = TagSerializer(
-        read_only=False,
-        many=True,
-    )
+    tags = TagListSerializerField()
 
-    category = serializers.CharField(
-        source = "category.name"
-    )
+    category = serializers.CharField(source="category.name")
 
     codes = CodeSerializer(
         read_only=False,
