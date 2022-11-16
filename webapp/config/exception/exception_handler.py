@@ -4,12 +4,21 @@ from typing import Any
 
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
+from datetime import datetime
+
 from rest_framework import exceptions
 from rest_framework.views import Response, exception_handler, set_rollback
 
 logger = logging.getLogger("django.db.backends")
 
 def exception_handler(exc, context):
+    logger.error(f"[CUSTOM_EXCEPTION_HANDLER_ERROR]")
+    logger.error(f"[{datetime.now()}]")
+    logger.error(f"> exc")
+    logger.error(f"{exc}")
+    logger.error(f"> context")
+    logger.error(f"{context}")
+
     if isinstance(exc, Http404):
         exc = exceptions.NotFound()
     elif isinstance(exc, PermissionDenied):
