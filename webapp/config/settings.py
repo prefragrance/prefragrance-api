@@ -49,12 +49,12 @@ PACKAGE_APPS = [
     "allauth.socialaccount",
     "dj_rest_auth.registration",
     "corsheaders",
+    "taggit",
 ]
 
 PROJECT_APPS = [
     "accounts",
     "product",
-    "tag",
     "review",
     "search",
     "mypage",
@@ -149,22 +149,23 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "accounts.User"
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": env("db_name"),
-        "USER": env("db_user"),
-        "PASSWORD": env("db_password"),
-        "HOST": env("db_host"),
-        "PORT": env("db_port"),
-    }
-}
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.mysql",
+#         "NAME": env("db_name"),
+#         "USER": env("db_user"),
+#         "PASSWORD": env("db_password"),
+#         "HOST": env("db_host"),
+#         "PORT": env("db_port"),
+#     }
+# }
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "config.authentications.CsrfExemptSessionAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
+    "EXCEPTION_HANDLER": "config.exception.api_exception_handler",
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
 }
 
@@ -247,3 +248,6 @@ NPLUSONE_WHITELIST = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
+TAGGIT_CASE_INSENSITIVE = True
+TAGGIT_LIMIT = 50

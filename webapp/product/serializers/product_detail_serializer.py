@@ -1,21 +1,16 @@
+from product.serializers.code_serializer import CodeSerializer
 from rest_framework import serializers
+from taggit.serializers import TaggitSerializer, TagListSerializerField
 
 from product.models import Product
-from product.serializers.code_serializer import CodeSerializer
-from tag.serializers import TagSerializer
 from review.serializers import ReviewSerializer
 
-class ProductDetailSerializer(serializers.ModelSerializer):
+
+class ProductDetailSerializer(TaggitSerializer, serializers.ModelSerializer):
     reviews = ReviewSerializer(many=True)
+    tags = TagListSerializerField()
 
-    tags = TagSerializer(
-        read_only=False,
-        many=True,
-    )
-
-    category = serializers.CharField(
-        source = 'category.name'
-    )
+    category = serializers.CharField(source="category.name")
 
     codes = CodeSerializer(
         read_only=False,
@@ -33,6 +28,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
             "codes",
             "feedback_cnt",
             "review_cnt",
+            "visit_cnt",
             "thumbnail_url",
             "rate_sum",
             "rate",

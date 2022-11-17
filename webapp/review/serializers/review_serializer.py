@@ -1,9 +1,12 @@
 from rest_framework import serializers
+from taggit.serializers import TaggitSerializer, TagListSerializerField
 
 from review.models import Review
 
 
-class ReviewSerializer(serializers.ModelSerializer):
+class ReviewSerializer(TaggitSerializer, serializers.ModelSerializer):
+    tags = TagListSerializerField()
+
     class Meta:
         model = Review
         fields = [
@@ -18,6 +21,7 @@ class ReviewSerializer(serializers.ModelSerializer):
             "rate",
             "pub_date",
             "feedback_cnt",
+            "tags",
         ]
         read_only_fields = [
             "id",

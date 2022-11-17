@@ -8,7 +8,7 @@ from product.models import Product
 
 class ProductLikeView(APIView):
     """ProductLikeView
-    POST: /product/like
+    POST: /product/<int:id>/like
     - 해당 상품 좋아요 누르기 및 취소
     """
 
