@@ -8,7 +8,7 @@ from review.models import Review
 class Product(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)  # primary key
     category = models.ForeignKey(
-        "product.Category", null=False, blank=False, on_delete=models.CASCADE
+        "product.Category", null=True, blank=True, on_delete=models.CASCADE
     )
     name = models.CharField(max_length=400, null=False, blank=False)
     producer = models.CharField(max_length=400, null=False, blank=False)

@@ -239,7 +239,7 @@ REST_AUTH_REGISTER_SERIALIZERS = {
     "REGISTER_SERIALIZER": "accounts.serializers.CustomRegisterSerializer",
 }
 
-NPLUSONE_RAISE = True
+NPLUSONE_RAISE = False
 
 NPLUSONE_WHITELIST = [
     {"model": "admin.LogEntry", "field": "user"},
