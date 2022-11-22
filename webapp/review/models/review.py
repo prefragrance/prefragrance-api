@@ -1,4 +1,3 @@
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from taggit.managers import TaggableManager
 
@@ -6,15 +5,10 @@ from accounts.models import User
 
 
 class Review(models.Model):
-    class Season(models.IntegerChoices):
-        SPRING = 1
-        SUMMER = 2
-        AUTUMN = 3
-        WINTER = 4
 
-    class Time(models.IntegerChoices):
-        DAY = 1
-        NIGHT = 2
+    class Time(models.TextChoices):
+        DAY = 'DAY'
+        NIGHT = 'NIGHT'
 
     class Duration(models.IntegerChoices):
         LOW = 1
@@ -27,14 +21,7 @@ class Review(models.Model):
         HIGH = 3
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="사용자")
-    product = models.ForeignKey(
-        "product.Product",
-        on_delete=models.CASCADE,
-        verbose_name="제품",
-        related_name="reviews",
-    )
-    season = models.IntegerField(choices=Season.choices)
-    time = models.IntegerField(choices=Time.choices)
+
     duration = models.IntegerField(choices=Duration.choices)
     strength = models.IntegerField(choices=Strength.choices)
     content = models.CharField(max_length=1500, verbose_name="내용")
