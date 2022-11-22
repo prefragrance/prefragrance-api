@@ -1,6 +1,7 @@
 import random
 from collections import Counter
 
+from django.contrib.contenttypes.models import ContentType
 from rest_framework import status
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
@@ -32,6 +33,7 @@ class MagazineAPIView(ListAPIView):
         tag = request.GET.get("tag")
         season = request.GET.get("season")
         products = self.filter_queryset(self.get_queryset())
+        c_type = ContentType.objects.get(app_label="product", model="product")
 
         if not code and not tag and not season:
             codes = Code.objects.all()
@@ -54,9 +56,9 @@ class MagazineAPIView(ListAPIView):
             )
 
         elif tag:
-            product_ids = TaggedItem.objects.filter(tag__name=tag).values_list(
-                "object_id", flat=True
-            )
+            product_ids = TaggedItem.objects.filter(
+                tag__name=tag, content_type=c_type
+            ).values_list("object_id", flat=True)
 
         elif season:
             product_id = Review.objects.filter(season=season).values_list(
