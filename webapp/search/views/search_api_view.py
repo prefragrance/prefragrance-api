@@ -65,7 +65,7 @@ class SearchAPIView(ListAPIView):
         elif tab == "recommend":
             queryset = RecommendSearch.objects.all()
             serializer = RecommendSearchSerializer(queryset, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response([data.content for data in queryset], status=status.HTTP_200_OK)
 
         if category:
             products = products.filter(category__name=category)
