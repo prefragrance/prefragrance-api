@@ -5,6 +5,9 @@ from celery.schedules import crontab
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
+import django
+django.setup()
+
 app = Celery('config',
              backend='rpc://',
              inlcude=['review.tasks'])
@@ -17,9 +20,9 @@ app.conf.update(
 )
 
 app.conf.beat_schedule = {
-	'add-every-3-hours-contrab': {
-		'task': 'tasks.testMethod',
-		'schedule': crontab(minute=0, hour='*/12'), #12시간마다 실행하기
+ 	'add-every-3-hours-contrab': {
+		'task': 'tasks.find_medal_standard','schedule':crontab(minute='*/60')
+		# 'schedule': crontab(minute=0, hour='*/12'), #12시간마다 실행하기
 	},
 }
 
