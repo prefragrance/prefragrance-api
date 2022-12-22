@@ -36,18 +36,18 @@ class MagazineAPIView(ListAPIView):
         c_type = ContentType.objects.get(app_label="product", model="product")
 
         if not code and not tag and not season:
-            codes = Code.objects.all()
-            randomCode = random.sample(list(codes), 2)
-            tags = Tag.objects.all()
-            randomTag = random.sample(list(tags), 2)
+            # codes = Code.objects.all()
+            # randomCode = random.sample(list(codes), 2)
+            # tags = Tag.objects.all()
+            # randomTag = random.sample(list(tags), 2)
             result = {
                 "codes": [],
                 "tags": [],
             }
 
-            for i in range(2):
-                result["codes"].append(randomCode[i].name)
-                result["tags"].append(randomTag[i].name)
+            # for i in range(2):
+            #     result["codes"].append(randomCode[i].name)
+            #     result["tags"].append(randomTag[i].name)
             return Response(result, status=status.HTTP_200_OK)
 
         elif code:
