@@ -22,7 +22,6 @@ class User(AbstractUser):
         error_messages={"unique": "A user with that nickname already exists."},
         default="",
     )
-    name = models.CharField(max_length=50, null=True)
     age = models.IntegerField(null=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, null=True)
     profile_img = models.ImageField(
@@ -37,4 +36,3 @@ class User(AbstractUser):
     )
     agree_prefragrance = models.BooleanField(default=True)
     agree_personal_required = models.BooleanField(default=True)
-    agree_personal_optional = models.BooleanField(default=True)

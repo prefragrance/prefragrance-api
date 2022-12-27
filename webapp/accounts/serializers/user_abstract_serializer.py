@@ -12,12 +12,10 @@ class UserAbstractSerializer(serializers.ModelSerializer):
             "username",
             "email",
             "nickname",
-            "name",
             "age",
             "gender",
             "agree_prefragrance",
             "agree_personal_required",
-            "agree_personal_optional",
         ]
         read_only_fields = [
             "id",
