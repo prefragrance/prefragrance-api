@@ -4,25 +4,29 @@ from taggit.serializers import TaggitSerializer, TagListSerializerField
 from review.models import Review
 
 
-class ReviewSerializer(TaggitSerializer, serializers.ModelSerializer):
-    nickname = serializers.CharField(source='user.nickname')
-    profile_img = serializers.ImageField(source='user.profile_img')
+class ReviewPostSerializer(TaggitSerializer, serializers.ModelSerializer):
+    tags = TagListSerializerField()
 
     class Meta:
         model = Review
         fields = [
             "id",
-            "nickname",
-            "profile_img",
+            "user",
+            "product",
+            "season",
+            "time",
+            "duration",
+            "strength",
             "content",
+            "rate",
             "pub_date",
             "feedback_cnt",
+            "tags",
         ]
         read_only_fields = [
             "id",
-            "nickname",
-            "profile_img",
-            "content",
+            "user",
+            "product",
             "pub_date",
             "feedback_cnt",
         ]

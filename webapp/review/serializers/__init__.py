@@ -1,1 +1,2 @@
+from .review_post_serializer import ReviewPostSerializer
 from .review_serializer import ReviewSerializer

@@ -7,7 +7,6 @@ from review.serializers import ReviewSerializer
 
 
 class ProductDetailSerializer(TaggitSerializer, serializers.ModelSerializer):
-    reviews = ReviewSerializer(many=True)
     tags = TagListSerializerField()
 
     category = serializers.CharField(source="category.name")
@@ -33,7 +32,6 @@ class ProductDetailSerializer(TaggitSerializer, serializers.ModelSerializer):
             "rate_sum",
             "rate",
             "liked_users",
-            "reviews",
         ]
 
         read_only_fields = [
