@@ -37,6 +37,7 @@ class ProductHotAPIView(ListAPIView):
 
         end_date = datetime.today()
         start_date = end_date - timedelta(days=7)
+        product_ids = Product.objects.all()
 
         if standard == "visit":
             product_ids = Visit.objects.filter(
@@ -51,7 +52,10 @@ class ProductHotAPIView(ListAPIView):
         counter = Counter(product_ids)
         result_product_ids = []
         for count in counter.most_common(5):
-            result_product_ids.append(count[0])
+            if standard == "visit" or standard == "review":
+                result_product_ids.append(count[0])
+            else:
+                result_product_ids.append(count[0].id)
 
         queryset = products.filter(id__in=result_product_ids)
 
