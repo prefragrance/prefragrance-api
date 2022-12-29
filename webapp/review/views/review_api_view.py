@@ -55,9 +55,20 @@ class ReviewView(ListCreateAPIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         review_ids = self.get_queryset().filter(
-            product__id = kwargs.get("id")
+        product__id = kwargs.get("id"),
         ).values_list('id', flat=True)
-        queryset = self.get_queryset().filter(id__in = review_ids)
+
+        rate = request.GET.get("rate")
+        ordering = request.GET.get("ordering")
+
+        if ordering is not None:
+            queryset = self.get_queryset().order_by('-'+ordering)
+        else:
+            queryset = self.get_queryset()
+        queryset = queryset.filter(id__in = review_ids)
+
+        if rate is not None:
+            queryset = queryset.filter(rate = rate)
         serializer = ReviewSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

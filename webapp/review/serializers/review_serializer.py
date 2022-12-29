@@ -17,6 +17,7 @@ class ReviewSerializer(TaggitSerializer, serializers.ModelSerializer):
             "content",
             "pub_date",
             "feedback_cnt",
+            "rate",
         ]
         read_only_fields = [
             "id",
@@ -25,4 +26,5 @@ class ReviewSerializer(TaggitSerializer, serializers.ModelSerializer):
             "content",
             "pub_date",
             "feedback_cnt",
+            "rate",
         ]
