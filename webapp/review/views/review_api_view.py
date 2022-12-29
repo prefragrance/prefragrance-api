@@ -17,6 +17,14 @@ class ReviewView(ListCreateAPIView):
     """ReviewView
     POST: product/<int:id>/review/
     - 상품 리뷰 작성하기
+
+    GET: product/<int:id>/review/
+    - 상품 리뷰 조회하기
+
+    최신순 정렬하기 ?ordering=pub_date
+    추천순 정렬하기 ?ordering=feedback_cnt
+    별점 필터링하기 ?rate=별점
+
     """
 
     permission_classes = [IsAuthenticated]
@@ -45,7 +53,13 @@ class ReviewView(ListCreateAPIView):
             openapi.Parameter(
                 "product_id",
                 openapi.IN_QUERY,
-                description="Product ID",
+                description="""
+                GET: product/<int:id>/review/
+                - 상품 리뷰 조회하기
+                - 최신순 정렬하기 ?ordering=pub_date
+                - 추천순 정렬하기 ?ordering=feedback_cnt
+                - 별점 필터링하기 ?rate=별점
+                """,
                 type=openapi.TYPE_NUMBER,
             )
         ]
