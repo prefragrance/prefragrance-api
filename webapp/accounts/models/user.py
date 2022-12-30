@@ -20,7 +20,7 @@ class User(AbstractUser):
         max_length=100,
         unique=True,
         error_messages={"unique": "A user with that nickname already exists."},
-        default="",
+        null=False,
     )
     age = models.IntegerField(null=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, null=True)
@@ -34,5 +34,5 @@ class User(AbstractUser):
         verbose_name="사용자 소개",
         default="사용자 소개가 없습니다.",
     )
-    agree_prefragrance = models.BooleanField(default=True)
-    agree_personal_required = models.BooleanField(default=True)
+    agree_prefragrance = models.BooleanField()
+    agree_personal_required = models.BooleanField()

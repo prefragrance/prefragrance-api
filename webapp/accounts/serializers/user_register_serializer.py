@@ -5,9 +5,9 @@ from rest_framework import serializers
 
 
 class CustomRegisterSerializer(RegisterSerializer):
-    username = serializers.CharField(validators=[validate_username])
-    password1 = serializers.CharField(validators=[validate_password])
-    nickname = serializers.CharField(required=False, max_length=50)
+    username = serializers.CharField(required=True, validators=[validate_username])
+    password1 = serializers.CharField(required=True, validators=[validate_password])
+    nickname = serializers.CharField(required=True, max_length=50)
     age = serializers.IntegerField(required=False)
     gender = serializers.ChoiceField(
         required=False,
