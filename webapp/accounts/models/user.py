@@ -34,5 +34,5 @@ class User(AbstractUser):
         verbose_name="사용자 소개",
         default="사용자 소개가 없습니다.",
     )
-    agree_prefragrance = models.BooleanField()
-    agree_personal_required = models.BooleanField()
+    agree_prefragrance = models.BooleanField(default=False)
+    agree_personal_required = models.BooleanField(default=False)
