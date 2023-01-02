@@ -4,7 +4,7 @@ from drf_yasg import openapi
 from rest_framework import status
 from rest_framework.generics import (ListCreateAPIView,
                                      RetrieveUpdateDestroyAPIView)
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
 from product.models import Product
@@ -19,7 +19,7 @@ class ReviewView(ListCreateAPIView):
     - 상품 리뷰 작성하기
     """
 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Review.objects.all()
     serializer_class = ReviewPostSerializer
 
