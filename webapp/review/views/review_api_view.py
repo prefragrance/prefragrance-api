@@ -17,6 +17,14 @@ class ReviewView(ListCreateAPIView):
     """ReviewView
     POST: product/<int:id>/review/
     - 상품 리뷰 작성하기
+
+    GET: product/<int:id>/review/
+    - 상품 리뷰 조회하기
+
+    최신순 정렬하기 ?ordering=pub_date
+    추천순 정렬하기 ?ordering=feedback_cnt
+    별점 필터링하기 ?rate=별점
+
     """
 
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -45,7 +53,13 @@ class ReviewView(ListCreateAPIView):
             openapi.Parameter(
                 "product_id",
                 openapi.IN_QUERY,
-                description="Product ID",
+                description="""
+                GET: product/<int:id>/review/
+                - 상품 리뷰 조회하기
+                - 최신순 정렬하기 ?ordering=pub_date
+                - 추천순 정렬하기 ?ordering=feedback_cnt
+                - 별점 필터링하기 ?rate=별점
+                """,
                 type=openapi.TYPE_NUMBER,
             )
         ]
@@ -55,9 +69,20 @@ class ReviewView(ListCreateAPIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         review_ids = self.get_queryset().filter(
-            product__id = kwargs.get("id")
+        product__id = kwargs.get("id"),
         ).values_list('id', flat=True)
-        queryset = self.get_queryset().filter(id__in = review_ids)
+
+        rate = request.GET.get("rate")
+        ordering = request.GET.get("ordering")
+
+        if ordering is not None:
+            queryset = self.get_queryset().order_by('-'+ordering)
+        else:
+            queryset = self.get_queryset()
+        queryset = queryset.filter(id__in = review_ids)
+
+        if rate is not None:
+            queryset = queryset.filter(rate = rate)
         serializer = ReviewSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
